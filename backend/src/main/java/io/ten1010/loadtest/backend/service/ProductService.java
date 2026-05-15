@@ -3,6 +3,7 @@ package io.ten1010.loadtest.backend.service;
 import io.ten1010.loadtest.backend.api.exception.ResourceNotFoundException;
 import io.ten1010.loadtest.backend.domain.product.Product;
 import io.ten1010.loadtest.backend.domain.product.ProductRepository;
+import io.ten1010.loadtest.backend.domain.product.ProductSearchCondition;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,14 +35,9 @@ public class ProductService {
                 .orElseThrow(() -> new ResourceNotFoundException("Product", id));
     }
 
-    public Page<Product> getAll(String category, String name, Pageable pageable) {
-        if (category != null && !category.isBlank()) {
-            return productRepository.findByCategory(category, pageable);
-        }
-        if (name != null && !name.isBlank()) {
-            return productRepository.findByNameContainingIgnoreCase(name, pageable);
-        }
-        return productRepository.findAll(pageable);
+    public Page<Product> getAll(String category, String name, BigDecimal minPrice, BigDecimal maxPrice, Boolean inStock, Pageable pageable) {
+        ProductSearchCondition condition = ProductSearchCondition.of(category, name, minPrice, maxPrice, inStock);
+        return productRepository.search(condition, pageable);
     }
 
     @Transactional

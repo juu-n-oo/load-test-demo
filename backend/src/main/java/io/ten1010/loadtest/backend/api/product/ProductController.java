@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+
 @RestController
 @RequestMapping("/api/products")
 @RequiredArgsConstructor
@@ -32,9 +34,13 @@ public class ProductController {
     public ResponseEntity<Page<ProductResponse.Summary>> getAll(
             @RequestParam(required = false) String category,
             @RequestParam(required = false) String name,
+            @RequestParam(required = false) BigDecimal minPrice,
+            @RequestParam(required = false) BigDecimal maxPrice,
+            @RequestParam(required = false) Boolean inStock,
             Pageable pageable) {
         return ResponseEntity.ok(
-                productService.getAll(category, name, pageable).map(ProductResponse.Summary::from));
+                productService.getAll(category, name, minPrice, maxPrice, inStock, pageable)
+                        .map(ProductResponse.Summary::from));
     }
 
     @PutMapping("/{id}")

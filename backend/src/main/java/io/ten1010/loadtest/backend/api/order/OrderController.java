@@ -1,5 +1,6 @@
 package io.ten1010.loadtest.backend.api.order;
 
+import io.ten1010.loadtest.backend.domain.order.OrderStatus;
 import io.ten1010.loadtest.backend.service.OrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -29,11 +30,12 @@ public class OrderController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<OrderResponse.Summary>> getByUser(
-            @RequestParam Long userId,
+    public ResponseEntity<Page<OrderResponse.Summary>> search(
+            @RequestParam(required = false) Long userId,
+            @RequestParam(required = false) OrderStatus status,
             Pageable pageable) {
         return ResponseEntity.ok(
-                orderService.getByUser(userId, pageable).map(OrderResponse.Summary::from));
+                orderService.search(userId, status, pageable).map(OrderResponse.Summary::from));
     }
 
     @PutMapping("/{id}/status")

@@ -30,8 +30,10 @@ public class PostController {
     @GetMapping
     public ResponseEntity<Page<PostResponse.Summary>> getAll(
             @RequestParam(required = false) String title,
+            @RequestParam(required = false) String content,
+            @RequestParam(required = false) Long userId,
             Pageable pageable) {
-        return ResponseEntity.ok(postService.getAll(title, pageable).map(PostResponse.Summary::from));
+        return ResponseEntity.ok(postService.getAll(title, content, userId, pageable).map(PostResponse.Summary::from));
     }
 
     @PutMapping("/{id}")

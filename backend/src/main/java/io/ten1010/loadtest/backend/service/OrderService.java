@@ -5,6 +5,7 @@ import io.ten1010.loadtest.backend.api.exception.ResourceNotFoundException;
 import io.ten1010.loadtest.backend.domain.order.Order;
 import io.ten1010.loadtest.backend.domain.order.OrderItem;
 import io.ten1010.loadtest.backend.domain.order.OrderRepository;
+import io.ten1010.loadtest.backend.domain.order.OrderSearchCondition;
 import io.ten1010.loadtest.backend.domain.order.OrderStatus;
 import io.ten1010.loadtest.backend.domain.product.Product;
 import io.ten1010.loadtest.backend.domain.product.ProductRepository;
@@ -70,8 +71,9 @@ public class OrderService {
                 .orElseThrow(() -> new ResourceNotFoundException("Order", id));
     }
 
-    public Page<Order> getByUser(Long userId, Pageable pageable) {
-        return orderRepository.findByUserId(userId, pageable);
+    public Page<Order> search(Long userId, OrderStatus status, Pageable pageable) {
+        OrderSearchCondition condition = OrderSearchCondition.of(userId, status);
+        return orderRepository.search(condition, pageable);
     }
 
     @Transactional

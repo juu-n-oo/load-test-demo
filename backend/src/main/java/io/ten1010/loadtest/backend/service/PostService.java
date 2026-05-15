@@ -3,6 +3,7 @@ package io.ten1010.loadtest.backend.service;
 import io.ten1010.loadtest.backend.api.exception.ResourceNotFoundException;
 import io.ten1010.loadtest.backend.domain.post.Post;
 import io.ten1010.loadtest.backend.domain.post.PostRepository;
+import io.ten1010.loadtest.backend.domain.post.PostSearchCondition;
 import io.ten1010.loadtest.backend.domain.user.User;
 import io.ten1010.loadtest.backend.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -38,11 +39,9 @@ public class PostService {
         return post;
     }
 
-    public Page<Post> getAll(String title, Pageable pageable) {
-        if (title != null && !title.isBlank()) {
-            return postRepository.findByTitleContainingIgnoreCase(title, pageable);
-        }
-        return postRepository.findAll(pageable);
+    public Page<Post> getAll(String title, String content, Long userId, Pageable pageable) {
+        PostSearchCondition condition = PostSearchCondition.of(title, content, userId);
+        return postRepository.search(condition, pageable);
     }
 
     @Transactional
