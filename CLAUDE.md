@@ -84,10 +84,15 @@ load-test/
 
 #### 2. gatling-test (Gatling Simulation)
 - **역할**: 백엔드 서버의 성능 및 부하 테스트
-- **구현 예정 시뮬레이션**:
-  - UserRegistrationSimulation: 사용자 가입 및 상품 조회
-  - OrderFlowSimulation: 주문 프로세스 테스트
-  - PostCommentSimulation: 게시판 및 댓글 기능 테스트
+- **구현 완료 시뮬레이션**:
+  - `UserRegistrationSimulation`: 사용자 가입·수정 + 상품 다중조건 검색 (50명 ramp-up)
+  - `OrderFlowSimulation`: 주문 전체 흐름(생성→배송→완료) + 재고 부족 시나리오 (30명 + 10명)
+  - `PostCommentSimulation`: 게시글/댓글 CRUD + 읽기 전용 조회 (30명 작성 + 20명 읽기)
+- **Gradle 태스크**:
+  - `./gradlew :gatling-test:gatlingRunUsers`  — UserRegistrationSimulation
+  - `./gradlew :gatling-test:gatlingRunOrders` — OrderFlowSimulation
+  - `./gradlew :gatling-test:gatlingRunPosts`  — PostCommentSimulation
+  - `./gradlew :gatling-test:gatlingRunAll`    — 3개 순차 실행
 - **주요 의존성**:
   - io.gatling:gatling-app:3.12.0
   - io.gatling.highcharts:gatling-charts-highcharts:3.12.0
@@ -232,7 +237,7 @@ Comment extends BaseEntity
 13. ⬜ 비밀번호 암호화 (BCrypt)
 
 ### Phase 4: Gatling 부하 테스트
-14. ⬜ Gatling 시뮬레이션 작성
+14. ✅ Gatling 시뮬레이션 작성
 15. ⬜ 성능 측정 및 분석
 
 ---
@@ -315,4 +320,4 @@ cd ~/workspace/load-test
 ---
 
 **Last Updated**: 2026-05-16
-**Status**: Phase 2 완료 (QueryDSL 기반 동적 검색/필터링/정렬 구현)
+**Status**: Phase 4 시뮬레이션 작성 완료 (UserRegistration, OrderFlow, PostComment 3개 구현)
