@@ -1,0 +1,43 @@
+# IDE
+.idea/
+.vscode/
+*.iml
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+
+# Java
+*.class
+*.jar
+*.war
+*.nar
+*.log
+*.zip
+*.tar.gz
+*.rar
+
+# Spring Boot
+.m2/
+.gradle/
+build/
+
+# Test Reports
+test-results/
+gatling-results/
+
+# Others
+.env
+.env.local
+*.pid
