@@ -177,7 +177,7 @@ Comment extends BaseEntity
 - `DELETE /{id}` - 사용자 비활성화 → 204 No Content
 
 ### Product API (`/api/products`)
-- `GET /` - 상품 목록 조회 (페이징, ?category=, ?name=) → 200 OK
+- `GET /` - 상품 목록 조회 (페이징, ?category=, ?name=, ?minPrice=, ?maxPrice=, ?inStock=, ?sort=price,asc) → 200 OK
 - `GET /{id}` - 상품 상세 조회 → 200 OK
 - `POST /` - 상품 등록 → 201 Created
 - `PUT /{id}` - 상품 수정 → 200 OK
@@ -185,12 +185,12 @@ Comment extends BaseEntity
 
 ### Order API (`/api/orders`)
 - `POST /` - 주문 생성 (재고 차감 포함) → 201 Created
-- `GET /` - 내 주문 목록 조회 (?userId=) → 200 OK
+- `GET /` - 주문 목록 조회 (?userId=, ?status=) → 200 OK
 - `GET /{id}` - 주문 상세 조회 (items fetch join) → 200 OK
 - `PUT /{id}/status` - 주문 상태 변경 → 200 OK
 
 ### Post API (`/api/posts`)
-- `GET /` - 게시글 목록 조회 (페이징, ?title=) → 200 OK
+- `GET /` - 게시글 목록 조회 (페이징, ?title=, ?content=, ?userId=, ?sort=viewCount,desc) → 200 OK
 - `GET /{id}` - 게시글 상세 조회 (viewCount++) → 200 OK
 - `POST /` - 게시글 작성 → 201 Created
 - `PUT /{id}` - 게시글 수정 → 200 OK
@@ -221,10 +221,10 @@ Comment extends BaseEntity
 6. ✅ REST Controller + DTO 구현
 7. ✅ GlobalExceptionHandler
 
-### Phase 2: QueryDSL 고급 기능
-8. ⬜ QueryDSL Q 클래스 생성 및 활용
-9. ⬜ 복잡한 검색/필터링 (QueryDSL 기반)
-10. ⬜ 동적 정렬
+### Phase 2: QueryDSL 고급 기능 ✅ 완료
+8. ✅ QueryDSL Q 클래스 생성 및 활용
+9. ✅ 복잡한 검색/필터링 (QueryDSL 기반)
+10. ✅ 동적 정렬
 
 ### Phase 3: 품질 향상
 11. ⬜ 통합 테스트 작성 (@SpringBootTest)
@@ -314,5 +314,5 @@ cd ~/workspace/load-test
 
 ---
 
-**Last Updated**: 2026-05-15
-**Status**: Phase 1 완료 (전체 도메인 API 구현 및 동작 확인)
+**Last Updated**: 2026-05-16
+**Status**: Phase 2 완료 (QueryDSL 기반 동적 검색/필터링/정렬 구현)
