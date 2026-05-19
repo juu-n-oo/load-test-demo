@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(./gradlew :backend:compileJava)",
+      "Bash(gradle --version)",
+      "Bash(/Users/joon/.gradle/wrapper/dists/gradle-8.14-bin/38aieal9i53h9rfe7vjup95b9/gradle-8.14/bin/gradle wrapper *)",
+      "Bash(./gradlew :gatling-test:compileTestJava)",
+      "Bash(./gradlew tasks *)"
+    ]
+  }
+}

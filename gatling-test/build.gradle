@@ -1,0 +1,62 @@
+plugins {
+    id 'java'
+}
+
+def gatlingVersion = '3.12.0'
+
+dependencies {
+    // Gatling
+    testImplementation "io.gatling.highcharts:gatling-charts-highcharts:${gatlingVersion}"
+    testImplementation "io.gatling:gatling-app:${gatlingVersion}"
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+// ── 개별 시뮬레이션 태스크 ─────────────────────────────────────────────────────
+
+tasks.register('gatlingRunUsers', JavaExec) {
+    group = 'gatling'
+    description = '사용자 가입 + 상품 조회 부하 테스트 실행'
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'io.gatling.app.Gatling'
+    args = [
+        '--simulation', 'io.ten1010.loadtest.gatling.simulation.UserRegistrationSimulation',
+        '--results-folder', "${layout.buildDirectory.get()}/gatling-results"
+    ]
+}
+
+tasks.register('gatlingRunOrders', JavaExec) {
+    group = 'gatling'
+    description = '주문 프로세스 부하 테스트 실행'
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'io.gatling.app.Gatling'
+    args = [
+        '--simulation', 'io.ten1010.loadtest.gatling.simulation.OrderFlowSimulation',
+        '--results-folder', "${layout.buildDirectory.get()}/gatling-results"
+    ]
+}
+
+tasks.register('gatlingRunPosts', JavaExec) {
+    group = 'gatling'
+    description = '게시글/댓글 부하 테스트 실행'
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'io.gatling.app.Gatling'
+    args = [
+        '--simulation', 'io.ten1010.loadtest.gatling.simulation.PostCommentSimulation',
+        '--results-folder', "${layout.buildDirectory.get()}/gatling-results"
+    ]
+}
+
+// ── 전체 실행 태스크 (순차 실행) ──────────────────────────────────────────────
+
+tasks.register('gatlingRunAll') {
+    group = 'gatling'
+    description = '모든 Gatling 시뮬레이션 순차 실행'
+    dependsOn 'gatlingRunUsers', 'gatlingRunOrders', 'gatlingRunPosts'
+}
+
+// 순차 실행을 위한 의존성 설정
+tasks.named('gatlingRunOrders') { mustRunAfter 'gatlingRunUsers' }
+tasks.named('gatlingRunPosts') { mustRunAfter 'gatlingRunOrders' }
